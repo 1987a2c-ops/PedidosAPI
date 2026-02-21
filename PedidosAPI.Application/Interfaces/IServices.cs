@@ -5,6 +5,7 @@ namespace PedidosAPI.Application.Interfaces;
 public interface IPedidoService
 {
     Task<CrearPedidoResponse> RegistrarPedidoAsync(CrearPedidoRequest request, CancellationToken ct = default);
+    Task<ListaPedidosResponse> ObtenerTodosAsync(CancellationToken ct = default);
 }
 
 public interface IValidacionClienteService

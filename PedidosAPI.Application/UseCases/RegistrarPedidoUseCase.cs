@@ -118,4 +118,27 @@ public sealed class RegistrarPedidoUseCase(
             throw;
         }
     }
+
+    public async Task<ListaPedidosResponse> ObtenerTodosAsync(CancellationToken ct = default)
+    {
+        logger.LogInformation("Consultando todos los pedidos registrados.");
+
+        var pedidos = await pedidoRepository.ObtenerTodosAsync(ct);
+
+        var lista = pedidos.Select(p => new PedidoResumenDto(
+            PedidoId: p.Id,
+            ClienteId: p.ClienteId,
+            Usuario: p.Usuario,
+            Fecha: p.Fecha,
+            Total: p.Total,
+            TotalItems: p.Detalles.Count
+        )).ToList();
+
+        logger.LogInformation("Se encontraron {Total} pedidos.", lista.Count);
+
+        return new ListaPedidosResponse(
+            TotalRegistros: lista.Count,
+            Pedidos: lista
+        );
+    }
 }

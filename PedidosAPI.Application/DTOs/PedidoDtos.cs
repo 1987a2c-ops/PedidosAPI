@@ -1,6 +1,6 @@
 ﻿namespace PedidosAPI.Application.DTOs;
 
-//  Request 
+// ── Request ───────────────────────────────────────────────────────────────────
 
 public record CrearPedidoRequest(
     int ClienteId,
@@ -14,7 +14,7 @@ public record ItemPedidoDto(
     decimal Precio
 );
 
-//  Response 
+// ── Response ──────────────────────────────────────────────────────────────────
 
 public record CrearPedidoResponse(
     int PedidoId,
@@ -30,4 +30,20 @@ public record ItemPedidoResponseDto(
     int Cantidad,
     decimal Precio,
     decimal Subtotal
+);
+
+// ── Lista de pedidos ──────────────────────────────────────────────────────────
+
+public record PedidoResumenDto(
+    int PedidoId,
+    int ClienteId,
+    string Usuario,
+    DateTime Fecha,
+    decimal Total,
+    int TotalItems
+);
+
+public record ListaPedidosResponse(
+    int TotalRegistros,
+    IEnumerable<PedidoResumenDto> Pedidos
 );

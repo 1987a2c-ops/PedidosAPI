@@ -5,6 +5,7 @@ namespace PedidosAPI.Domain.Interfaces;
 public interface IPedidoRepository
 {
     Task<PedidoCabecera> CrearAsync(PedidoCabecera pedido, CancellationToken ct = default);
+    Task<IEnumerable<PedidoCabecera>> ObtenerTodosAsync(CancellationToken ct = default);
 }
 
 public interface IAuditoriaRepository

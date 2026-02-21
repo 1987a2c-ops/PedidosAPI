@@ -11,7 +11,7 @@ public static class PedidosEndpoints
             .WithTags("Pedidos")
             .WithOpenApi();
 
-        // POST /api/pedidos
+        // POST /api/pedidos — Registrar nuevo pedido
         group.MapPost("/", RegistrarPedido)
             .WithName("RegistrarPedido")
             .WithSummary("Registrar un nuevo pedido")
@@ -23,8 +23,19 @@ public static class PedidosEndpoints
             .Produces<object>(StatusCodes.Status422UnprocessableEntity)
             .Produces<object>(StatusCodes.Status503ServiceUnavailable);
 
+        // GET /api/pedidos — Obtener todos los pedidos
+        group.MapGet("/", ObtenerTodos)
+            .WithName("ObtenerTodosPedidos")
+            .WithSummary("Obtener todos los pedidos registrados")
+            .WithDescription(
+                "Retorna la lista completa de pedidos con su cabecera y total de ítems, " +
+                "ordenados del más reciente al más antiguo.")
+            .Produces<ListaPedidosResponse>(StatusCodes.Status200OK);
+
         return app;
     }
+
+    //  Handlers 
 
     private static async Task<IResult> RegistrarPedido(
         CrearPedidoRequest request,
@@ -37,5 +48,17 @@ public static class PedidosEndpoints
         var resultado = await pedidoService.RegistrarPedidoAsync(request, ct);
 
         return Results.Created($"/api/pedidos/{resultado.PedidoId}", resultado);
+    }
+
+    private static async Task<IResult> ObtenerTodos(
+        IPedidoService pedidoService,
+        ILogger<Program> logger,
+        CancellationToken ct)
+    {
+        logger.LogInformation("GET /api/pedidos");
+
+        var resultado = await pedidoService.ObtenerTodosAsync(ct);
+
+        return Results.Ok(resultado);
     }
 }
