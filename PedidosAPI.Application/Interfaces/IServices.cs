@@ -1,10 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using PedidosAPI.Application.DTOs;
 
-namespace PedidosAPI.Application.Interfaces
+namespace PedidosAPI.Application.Interfaces;
+
+public interface IPedidoService
 {
-    internal class IServices
-    {
-    }
+    Task<CrearPedidoResponse> RegistrarPedidoAsync(CrearPedidoRequest request, CancellationToken ct = default);
+}
+
+public interface IValidacionClienteService
+{
+    Task<bool> ValidarClienteAsync(int clienteId, CancellationToken ct = default);
+}
+
+public interface IUnitOfWork : IAsyncDisposable
+{
+    Task BeginTransactionAsync(CancellationToken ct = default);
+    Task CommitAsync(CancellationToken ct = default);
+    Task RollbackAsync(CancellationToken ct = default);
 }

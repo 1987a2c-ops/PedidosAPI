@@ -1,10 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿namespace PedidosAPI.Application.Exceptions;
 
-namespace PedidosAPI.Application.Exceptions
+public class PedidoInvalidoException(string mensaje) : Exception(mensaje);
+
+public class ClienteNoValidoException(int clienteId)
+    : Exception($"El cliente con Id {clienteId} no superó la validación externa.")
 {
-    internal class DomainExceptions
-    {
-    }
+    public int ClienteId { get; } = clienteId;
 }
+
+public class ServicioExternoException(string mensaje, Exception? inner = null)
+    : Exception(mensaje, inner);
