@@ -24,8 +24,6 @@
 11. [Endpoints](#-endpoints)
 12. [Configuración y Ejecución](#-configuración-y-ejecución)
 13. [Criterios de Evaluación](#-criterios-de-evaluación)
-14. [Historial Git](#-historial-git)
-
 ---
 
 ## 📌 Descripción General
