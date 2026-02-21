@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="PedidosAPI.API/PedidosAPI.API.csproj" />
+  <Project Path="PedidosAPI.Application/PedidosAPI.Application.csproj" />
+  <Project Path="PedidosAPI.Domain/PedidosAPI.Domain.csproj" />
+  <Project Path="PedidosAPI.Infrastructure/PedidosAPI.Infrastructure.csproj" />
+</Solution>
