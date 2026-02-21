@@ -13,12 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DependencyInjection\" />
-    <Folder Include="Endpoints\" />
-    <Folder Include="Middleware\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\PedidosAPI.Application\PedidosAPI.Application.csproj" />
     <ProjectReference Include="..\PedidosAPI.Infrastructure\PedidosAPI.Infrastructure.csproj" />
   </ItemGroup>
