@@ -18,36 +18,20 @@ public static class InfrastructureServiceExtensions
     public static IServiceCollection AddInfrastructure(
         this IServiceCollection services, IConfiguration configuration)
     {
-        // ── Entity Framework Core ──────────────────────────────────────────────
+        //  Entity Framework Core
         services.AddDbContext<AppDbContext>(options =>
             options.UseSqlServer(
                 configuration.GetConnectionString("DefaultConnection")));
 
-        // ── Repositories ───────────────────────────────────────────────────────
+        //  Repositories 
         services.AddScoped<IPedidoRepository, PedidoRepository>();
         services.AddScoped<IAuditoriaRepository, AuditoriaRepository>();
 
-        // ── Unit of Work ───────────────────────────────────────────────────────
+        //  Unit of Work 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-        // ── HttpClient + Polly: Circuit Breaker + Retry + Timeout ─────────────
-        //
-        //  Las políticas se apilan en este orden de ejecución (exterior → interior):
-        //
-        //  ┌──────────────────────────────────────────────────┐
-        //  │  1. TIMEOUT TOTAL (10 seg)                        │
-        //  │  ┌────────────────────────────────────────────┐   │
-        //  │  │  2. CIRCUIT BREAKER                        │   │
-        //  │  │  ┌──────────────────────────────────────┐  │   │
-        //  │  │  │  3. RETRY (3 reintentos exponencial) │  │   │
-        //  │  │  │  ┌────────────────────────────────┐  │  │   │
-        //  │  │  │  │  4. TIMEOUT POR INTENTO (5 seg)│  │  │   │
-        //  │  │  │  │       HTTP REQUEST             │  │  │   │
-        //  │  │  │  └────────────────────────────────┘  │  │   │
-        //  │  │  └──────────────────────────────────────┘  │   │
-        //  │  └────────────────────────────────────────────┘   │
-        //  └──────────────────────────────────────────────────┘
-
+        //  HttpClient + Polly: Circuit Breaker + Retry + Timeout 
+        
         services.AddHttpClient<IValidacionClienteService, ValidacionClienteService>(client =>
         {
             client.BaseAddress = new Uri("https://jsonplaceholder.typicode.com/");
@@ -61,7 +45,7 @@ public static class InfrastructureServiceExtensions
         return services;
     }
 
-    // ── 1. Timeout total ──────────────────────────────────────────────────────
+    //  1. Timeout total
     private static IAsyncPolicy<HttpResponseMessage> GetTimeoutPolicy(IServiceProvider sp)
     {
         var logger = sp.GetRequiredService<ILogger<ValidacionClienteService>>();
@@ -76,7 +60,7 @@ public static class InfrastructureServiceExtensions
             });
     }
 
-    // ── 2. Circuit Breaker ────────────────────────────────────────────────────
+    //  2. Circuit Breaker
     //
     //  CLOSED   → funcionamiento normal.
     //  OPEN     → tras 3 fallos consecutivos se abre 15 seg; las llamadas fallan
@@ -111,7 +95,7 @@ public static class InfrastructureServiceExtensions
                 });
     }
 
-    // ── 3. Retry con backoff exponencial ──────────────────────────────────────
+    //  3. Retry con backoff exponencial
     //
     //  Reintenta hasta 3 veces ante errores transitorios.
     //  Esperas: ~2s → ~4s → ~8s  (+ jitter para evitar tormentas de reintentos)
@@ -142,7 +126,7 @@ public static class InfrastructureServiceExtensions
                 });
     }
 
-    // ── 4. Timeout por intento individual ─────────────────────────────────────
+    //  4. Timeout por intento individual 
     //  Cada intento (incluyendo reintentos) tiene 5 seg como límite máximo.
     private static IAsyncPolicy<HttpResponseMessage> GetAttemptTimeoutPolicy(IServiceProvider sp)
     {
