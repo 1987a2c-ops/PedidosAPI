@@ -671,6 +671,6 @@ Cada clase tiene una única responsabilidad. Los archivos están organizados en 
 - Un commit por cada capa o característica significativa
 - Mensajes de commit siguiendo convención `tipo(scope): descripción`
 
-## 👤 Autor Alvaro Andrés Cárdenas Salazar
+## 👤 Autor: Alvaro Andrés Cárdenas Salazar
 
 Desarrollado como prueba técnica práctica. Sistema transaccional de pedidos con patrones empresariales modernos.
