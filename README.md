@@ -1,7 +1,7 @@
 # PedidosAPI
 
 > **Prueba Técnica Práctica** — Sistema transaccional de registro de pedidos  
-> Desarrollado con **.NET 9 · Minimal API · Clean Architecture · Entity Framework Core · Polly · Scalar**
+> Desarrollado con **.NET 10 · Minimal API · Clean Architecture · Entity Framework Core · Polly · Scalar**
 >
 > URL DE PRUEBA: https://pedidosapiapi20260222230350-dfh3fpdnfwckf4cd.westus3-01.azurewebsites.net/scalar/v1
 
